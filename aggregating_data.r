@@ -41,7 +41,7 @@ weather_f <- list(Chicago = chicago_f, Houston = houston_f,
                   NewYork = newyork_f, SanFran = sanfran_f)
 
 
-# Calculating mean, max, min, q1, median and q3
+# Calculating mean, max, min, q1, median and q3 then export files
 
 mean_c <- sapply(weather_c, apply, 1, mean)
 max_c <- sapply(weather_c, apply, 1, max)
@@ -65,6 +65,58 @@ df_list <- list(mean_c, max_c, min_c, q1_c, med_c, q3_c,
 
 export_list(df_list, c("mean_c.csv", "max_c.csv", "min_c.csv", "q1_c.csv", "med_c.csv", "q3_c.csv",
                        "mean_f.csv", "max_f.csv", "min_f.csv", "q1_f.csv", "med_f.csv", "q3_f.csv"))
+
+
+
+# Add new rows of average range and create new dataframes
+
+new_c <- weather_c
+new_f <- weather_f
+
+range_c <- lapply(new_c, function(x) x[1,]-x[2,])
+range_f <- lapply(new_f, function(x) x[1,]-x[2,])
+
+cities <- c("Chicago", "Houston", "NewYork", "SanFran")
+
+for (city in cities) {
+  new_c[[city]] <- rbind(new_c[[city]], Avg_range = range_c[[city]])
+}
+
+for (city in cities) {
+  new_f[[city]] <- rbind(new_f[[city]], Avg_range = range_f[[city]])
+}
+
+
+export_list(new_c, c("New_Chicago-C.csv", "New-Houston-C.csv", "New-NewYork-C.csv", "New-SanFrancisco-C.csv"))
+export_list(new_f, c("New_Chicago-F.csv", "New-Houston-F.csv", "New-NewYork-F.csv", "New-SanFrancisco-F.csv"))
+
+
+# Summarize max and min values by months
+
+
+month_maxC <- sapply(weather_c, function(y) apply(y, 1, function(x) names(which.max(x))))
+month_minC <- sapply(weather_c, function(y) apply(y, 1, function(x) names(which.min(x))))
+
+month_maxF <- sapply(weather_f, function(y) apply(y, 1, function(x) names(which.max(x))))
+month_minF <- sapply(weather_f, function(y) apply(y, 1, function(x) names(which.min(x))))
+
+
+month_list <- list(month_maxC, month_minC, month_maxF, month_minF)
+export_list(month_list, c("month_maxC.csv", "month_minC.csv", "month_maxF.csv", "month_minF.csv"))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
                
