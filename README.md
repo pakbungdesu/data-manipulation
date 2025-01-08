@@ -1,9 +1,4 @@
 
-## Content
-- Data Manipulation using R
-- Data Manipulation using Python (Numpy, Pandas etc.)
-
-
 ## Data Manipulation using R
 - Data Cleaning
   - Adjust data structure to prevent data type errors
